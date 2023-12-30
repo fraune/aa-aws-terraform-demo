@@ -2,7 +2,7 @@
 
 ## Contents 📕
 
-- [Contents](#contents-📕)
+- [Contents](#contents-)
 - [Requirements](#requirements-)
 - [Design](#design-)
 - [Testing](#testing-)
