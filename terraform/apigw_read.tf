@@ -9,6 +9,18 @@ resource "aws_api_gateway_method" "user_get" {
   authorization = "AWS_IAM"
 }
 
+resource "aws_api_gateway_method_settings" "api_gateway_settings_get" {
+  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
+  stage_name  = aws_api_gateway_stage.stage.stage_name
+  method_path = "${aws_api_gateway_resource.user_resource.path_part}/${aws_api_gateway_method.user_get.http_method}"
+
+  settings {
+    metrics_enabled    = true
+    logging_level      = "INFO"
+    data_trace_enabled = true
+  }
+}
+
 resource "aws_api_gateway_integration" "dynamodb_get" {
   rest_api_id             = aws_api_gateway_rest_api.api_gateway.id
   resource_id             = aws_api_gateway_resource.user_resource.id
