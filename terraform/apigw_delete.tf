@@ -21,7 +21,6 @@ resource "aws_api_gateway_method_settings" "api_gateway_settings_specific" {
   }
 }
 
-
 resource "aws_api_gateway_integration" "dynamodb_delete" {
   rest_api_id             = aws_api_gateway_rest_api.api_gateway.id
   resource_id             = aws_api_gateway_resource.user_resource.id
@@ -55,4 +54,3 @@ resource "aws_api_gateway_integration_response" "dynamodb_delete_200" {
   http_method = aws_api_gateway_method.user_delete.http_method
   status_code = aws_api_gateway_method_response.user_delete_200.status_code
 }
-
