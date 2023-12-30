@@ -208,9 +208,8 @@ resource "aws_api_gateway_integration" "dynamodb_get" {
 
   request_templates = {
     "application/json" = jsonencode({
-      TableName = "AADemo_UserTable",
-      "version" : "2018-05-29",
-      #   "operation" : "Scan"
+      "TableName" : "AADemo_UserTable",
+      "version" : "2018-05-29"
     })
   }
 }
