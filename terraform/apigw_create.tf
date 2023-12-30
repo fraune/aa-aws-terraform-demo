@@ -32,14 +32,13 @@ resource "aws_api_gateway_integration" "dynamodb_post" {
 
   request_templates = {
     "application/json" = jsonencode({
-      "TableName" : "AADemo_UserTable",
-      "Version" : "2018-05-29",
+      "TableName" = "AADemo_UserTable",
       # Note: Do not store sensitive data in a plaintext DB!
-      "Item" : {
-        "_pk0" : { "S" : "$input.path('$.starship')" },
-        "_sk0" : { "S" : "$input.path('$.name')" },
-        "email" : { "S" : "$input.path('$.email')" },
-        "subscribed" : { "BOOL" : "$input.path('$.subscribed')" }
+      "Item" = {
+        "_pk0"       = { "S" = "$input.path('$.starship')" },
+        "_sk0"       = { "S" = "$input.path('$.name')" },
+        "email"      = { "S" = "$input.path('$.email')" },
+        "subscribed" = { "BOOL" = "$input.path('$.subscribed')" }
       }
     })
   }

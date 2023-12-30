@@ -32,15 +32,15 @@ resource "aws_api_gateway_integration" "dynamodb_put" {
 
   request_templates = {
     "application/json" = jsonencode({
-      TableName = "AADemo_UserTable",
-      Key = {
-        "_pk0" = { "S" : "$input.path('$.starship')" },
-        "_sk0" = { "S" : "$input.path('$.name')" }
+      "TableName" = "AADemo_UserTable",
+      "Key" = {
+        "_pk0" = { "S" = "$input.path('$.starship')" },
+        "_sk0" = { "S" = "$input.path('$.name')" }
       },
-      UpdateExpression = "set email = :email, subscribed = :subscribed",
-      ExpressionAttributeValues = {
-        ":email"      = { "S" : "$input.path('$.email')" },
-        ":subscribed" = { "BOOL" : "$input.path('$.subscribed')" }
+      "UpdateExpression" = "set email = :email, subscribed = :subscribed",
+      "ExpressionAttributeValues" = {
+        ":email"      = { "S" = "$input.path('$.email')" },
+        ":subscribed" = { "BOOL" = "$input.path('$.subscribed')" }
       }
     })
   }

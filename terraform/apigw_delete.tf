@@ -32,8 +32,8 @@ resource "aws_api_gateway_integration" "dynamodb_delete" {
 
   request_templates = {
     "application/json" = jsonencode({
-      "TableName" : "AADemo_UserTable",
-      "Key" : {
+      "TableName" = "AADemo_UserTable",
+      "Key" = {
         "_pk0" = { "S" = "$input.path('$.starship')" },
         "_sk0" = { "S" = "$input.path('$.name')" }
       }
