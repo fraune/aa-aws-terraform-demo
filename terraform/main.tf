@@ -1,6 +1,6 @@
-###########
-# DynamoDB
-###########
+############
+# DynamoDB #
+############
 
 module "dynamodb_table" {
   source  = "terraform-aws-modules/dynamodb-table/aws"
@@ -28,9 +28,9 @@ module "dynamodb_table" {
   }
 }
 
-#################################
-# IAM Policy role and attachment
-#################################
+##################################
+# IAM policy role and attachment #
+##################################
 
 resource "aws_iam_role" "api_gateway_dynamodb_role" {
   name = "api_gateway_dynamodb_role"
@@ -58,11 +58,11 @@ resource "aws_iam_role_policy" "api_gateway_dynamodb_policy" {
     Statement = [
       {
         Action = [
+          "dynamodb:Scan", # Used for GET
           "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:UpdateItem",
-          "dynamodb:DeleteItem",
-          "dynamodb:Scan"
+          "dynamodb:DeleteItem"
         ],
         Effect   = "Allow",
         Resource = module.dynamodb_table.dynamodb_table_arn
@@ -88,10 +88,6 @@ resource "aws_iam_role" "api_gateway_cloudwatch_role" {
   })
 }
 
-#####################
-# Cloudwatch Logging
-#####################
-
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
   name = "api_gateway_cloudwatch_policy"
   role = aws_iam_role.api_gateway_cloudwatch_role.id
@@ -116,18 +112,35 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
   })
 }
 
+######################
+# Cloudwatch Logging #
+######################
+
 resource "aws_cloudwatch_log_group" "api_gateway_log_group" {
   name = "/aws/apigateway/AADemo_UserAPI"
 }
 
+resource "aws_api_gateway_account" "example" {
+  cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch_role.arn
+}
+
+####################
+# HTTP API Gateway #
+####################
+
+resource "aws_api_gateway_rest_api" "api_gateway" {
+  name        = "AADemo_UserAPI"
+  description = "API for CRUD operations on the User Table"
+}
+
 resource "aws_api_gateway_deployment" "api_gateway_deployment" {
   depends_on = [
-    aws_api_gateway_integration_response.dynamodb_get_200
+    aws_api_gateway_integration_response.dynamodb_get_200 # Required, or we'll get a "no APIs" error on first deploy
   ]
 
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
 
-  # This description encourages a new deployment on configuration changes
+  # Force a new deploy on configuration changes
   description = "Deployment at ${timestamp()}"
 
   lifecycle {
@@ -136,7 +149,7 @@ resource "aws_api_gateway_deployment" "api_gateway_deployment" {
 }
 
 resource "aws_api_gateway_stage" "example_stage" {
-  stage_name    = var.stage # "dev"
+  stage_name    = var.stage
   rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
   deployment_id = aws_api_gateway_deployment.api_gateway_deployment.id
 
@@ -169,19 +182,6 @@ resource "aws_api_gateway_method_settings" "example_settings" {
     logging_level      = "INFO"
     data_trace_enabled = true
   }
-}
-
-resource "aws_api_gateway_account" "example" {
-  cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch_role.arn
-}
-
-###################
-# HTTP API Gateway
-###################
-
-resource "aws_api_gateway_rest_api" "api_gateway" {
-  name        = "AADemo_UserAPI"
-  description = "API for CRUD operations on the User Table"
 }
 
 resource "aws_api_gateway_resource" "user_resource" {
