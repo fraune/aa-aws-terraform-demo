@@ -120,8 +120,26 @@ resource "aws_cloudwatch_log_group" "api_gateway_log_group" {
   name = "/aws/apigateway/AADemo_UserAPI"
 }
 
+resource "aws_api_gateway_deployment" "api_gateway_deployment" {
+  depends_on = [
+    aws_api_gateway_integration_response.dynamodb_get_200
+  ]
+
+  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
+
+  # The stage name is defined here and it should match with the aws_api_gateway_stage resource
+  stage_name = var.stage
+
+  # This description encourages a new deployment on configuration changes
+  description = "Deployment at ${timestamp()}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_api_gateway_stage" "example_stage" {
-  stage_name    = aws_api_gateway_deployment.api_gateway_deployment.stage_name # "api_gateway_deployment"
+  stage_name    = aws_api_gateway_deployment.api_gateway_deployment.stage_name # "dev"
   rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
   deployment_id = aws_api_gateway_deployment.api_gateway_deployment.id
 
@@ -141,25 +159,6 @@ resource "aws_api_gateway_stage" "example_stage" {
       protocol       = "$context.protocol",
       responseLength = "$context.responseLength"
     })
-  }
-}
-
-resource "aws_api_gateway_deployment" "api_gateway_deployment" {
-  #   depends_on = [
-  #     aws_api_gateway_integration.dynamodb_get,
-  #     aws_api_gateway_account.example,
-  #   ]
-
-  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-
-  # The stage name is defined here and it should match with the aws_api_gateway_stage resource
-  stage_name = "api_gateway_deployment"
-
-  # This description encourages a new deployment on configuration changes
-  description = "Deployment at ${timestamp()}"
-
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
