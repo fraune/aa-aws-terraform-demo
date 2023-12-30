@@ -36,10 +36,10 @@ resource "aws_api_gateway_integration" "dynamodb_post" {
       "Version" : "2018-05-29",
       # Note: Do not store sensitive data in a plaintext DB!
       "Item" : {
-        "_pk0" : { "S" : "$input.path('$.email')" },
+        "_pk0" : { "S" : "$input.path('$.starship')" },
         "_sk0" : { "S" : "$input.path('$.name')" },
-        "subscribed" : { "BOOL" : "$input.path('$.subscribed')" },
-        "favorite_color" : { "S" : "$input.path('$.color')" }
+        "email" : { "S" : "$input.path('$.email')" },
+        "subscribed" : { "BOOL" : "$input.path('$.subscribed')" }
       }
     })
   }
