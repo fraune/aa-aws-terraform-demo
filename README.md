@@ -1,5 +1,11 @@
 # aa-aws-terraform-demo
 
+## Contents 📕
+
+- [Requirements](requirements)
+- [Design]()
+- [Testing]()
+
 ## Requirements 📋
 
 **Functional/Architectural Requirements:**
@@ -21,6 +27,21 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 - Postman file we can use to exercise the deployed endpoints
 
 ## Design 🔩
+
+### User table
+
+Because the design specified storing user data with primary and sort keys, it implies the primary key holds data in a one-to-many relationship, along with the sort key. The data to store was not specified, so I'll make some up.
+
+**Required:**
+- pk - `starship` (holds a crew)
+- sk - crewperson's `name`
+
+**Optional:**
+
+- `email` address
+- `subscribed` to email updates
+
+### Terraform
 
 - DynamoDB module for user storage setup
     - [terraform-aws-modules/dynamodb-table/aws](https://registry.terraform.io/modules/terraform-aws-modules/dynamodb-table/aws/latest)
@@ -63,16 +84,30 @@ Get requests return all the users in the table.
 
 ### POST (Create)
 
-Post requests create a 
+Post requests create a new record.
 
 - Request type is `POST`
 - `Content-Type` header is `application/json`
-- Request body
+- Request body:
     ```json
     {
-        "email": "geordi.laforge@enterprise.org", // required string (_pk0)
-        "name": "geordi",                         // required string (_sk0)
-        "subscribed": true,                       // optional bool
-        "color": "red"                            // optional string
+        "starship": "NCC-1701-D",          // required string (_pk0)
+        "name": "Geordi",                  // required string (_sk0)
+        "email": "geordi.laforge@ufp.org", // optional string
+        "subscribed": true                 // optional bool
+    }
+    ```
+
+### DELETE (Delete)
+
+Delete requests remove a record.
+
+- Request type is `DELETE`
+- `Content-Type` header is `application/json`
+- Request body:
+    ```json
+    {
+        "starship": "NCC-1701-D", // required string (_pk0)
+        "name": "Geordi"          // required string (_sk0)
     }
     ```
