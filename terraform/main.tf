@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "api_gateway_dynamodb_policy" {
       {
         Action = [
           "dynamodb:Scan", # Used for GET
-          "dynamodb:GetItem",
+          # "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:UpdateItem",
           "dynamodb:DeleteItem"
