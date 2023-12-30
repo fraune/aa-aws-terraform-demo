@@ -2,9 +2,9 @@
 
 ## Contents 📕
 
-- [Requirements](requirements)
-- [Design]()
-- [Testing]()
+- [Requirements](#requirements-📋)
+- [Design](#design-🔩)
+- [Testing](#testing-🧪)
 
 ## Requirements 📋
 
