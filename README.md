@@ -98,20 +98,6 @@ Post requests create a new record.
     }
     ```
 
-### DELETE (Delete)
-
-Delete requests remove a record.
-
-- Request type is `DELETE`
-- `Content-Type` header is `application/json`
-- Request body:
-    ```json
-    {
-        "starship": "NCC-1701-D", // required string (_pk0)
-        "name": "Geordi"          // required string (_sk0)
-    }
-    ```
-
 ### PUT (Update)
 
 Put requests update a record.
@@ -125,5 +111,19 @@ Put requests update a record.
         "name": "Geordi",                         // required string (_sk0)
         "email": "geordi.laforge@enterprise.org", // string to update
         "subscribed": false                       // bool to update
+    }
+    ```
+
+### DELETE (Delete)
+
+Delete requests remove a record.
+
+- Request type is `DELETE`
+- `Content-Type` header is `application/json`
+- Request body:
+    ```json
+    {
+        "starship": "NCC-1701-D", // required string (_pk0)
+        "name": "Geordi"          // required string (_sk0)
     }
     ```
