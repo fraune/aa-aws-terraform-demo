@@ -1,6 +1,6 @@
 # aa-aws-terraform-demo
 
-## Requirements
+## Requirements 📋
 
 **Functional/Architectural Requirements:**
  
@@ -20,7 +20,7 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 - Instructions so we can deploy and test the solution.
 - Postman file we can use to exercise the deployed endpoints
 
-## Design
+## Design 🔩
 
 - DynamoDB module for user storage setup
     - [terraform-aws-modules/dynamodb-table/aws](https://registry.terraform.io/modules/terraform-aws-modules/dynamodb-table/aws/latest)
@@ -28,3 +28,29 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
     - [aws_api_gateway_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_integration)
 - API Gateway endpoint configurations, authorization via "AWS_IAM" over a Lambda authorizer as per requirements
     - [aws_api_gateway_method](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method)
+- Cloudwatch logging setup for debugging
+    - Various resources
+
+## Testing 🧪
+
+### Setup
+
+1. Deploy the Terraform
+    ```
+    cd terraform
+    terraform init && terraform apply
+    ```
+1. Copy the `invoke_url` Terraform output
+1. Open Postman and start a new request
+1. Paste in the URL
+1. Log into AWS and create a new access key in IAM (or use an existing one)
+1. In your Postman request, switch to the Authorization tab and select the `AWS Signature` type
+1. Paste in the `AccessKey` and `SecretKey`
+1. Continue with further setup described in one of the CRUD methods below
+
+### GET (Read)
+
+Get requests return all the users in the table.
+
+- Request type is `GET`
+- Request body is `none`
