@@ -75,13 +75,6 @@ terraform fmt && terraform init && terraform destroy -auto-approve && terraform 
 1. Paste in the `AccessKey` and `SecretKey`
 1. Continue with further setup described in one of the CRUD methods below
 
-### GET (Read)
-
-Get requests return all the users in the table.
-
-- Request type is `GET`
-- Request body is `none`
-
 ### POST (Create)
 
 Post requests create a new record.
@@ -97,6 +90,13 @@ Post requests create a new record.
         "subscribed": true                 // optional bool
     }
     ```
+
+### GET (Read)
+
+Get requests return all the users in the table.
+
+- Request type is `GET`
+- Request body is `none`
 
 ### PUT (Update)
 
@@ -114,7 +114,7 @@ Put requests update a record.
     }
     ```
 
-### DELETE (Delete)
+### DELETE (Destroy)
 
 Delete requests remove a record.
 
