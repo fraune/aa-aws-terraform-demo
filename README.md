@@ -33,6 +33,12 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 
 ## Testing 🧪
 
+### Quick iterations
+CLI for quickly reapplying terraform from scratch
+```
+terraform fmt && terraform init && terraform destroy -auto-approve && terraform apply -auto-approve
+```
+
 ### Setup
 
 1. Deploy the Terraform
