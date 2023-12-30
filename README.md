@@ -111,3 +111,19 @@ Delete requests remove a record.
         "name": "Geordi"          // required string (_sk0)
     }
     ```
+
+### PUT (Update)
+
+Put requests update a record.
+
+- Request type is `PUT`
+- `Content-Type` header is `application/json`
+- Request body:
+    ```json
+    {
+        "starship": "NCC-1701-D",                 // required string (_pk0)
+        "name": "Geordi",                         // required string (_sk0)
+        "email": "geordi.laforge@enterprise.org", // string to update
+        "subscribed": false                       // bool to update
+    }
+    ```
