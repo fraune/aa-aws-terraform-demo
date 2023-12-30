@@ -32,17 +32,17 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 
 **Currenlty configurations:**
 
-[x] API Gateway manage all endpoints
-[x] Backend integration via AWS
-[x] Authentication via IAM
-[x] Validation via input mapping types
+- [x] API Gateway manage all endpoints
+- [x] Backend integration via AWS
+- [x] Authentication via IAM
+- [x] Validation via input mapping types
 
 **Future options:**
 
-[ ] Find ways to simplify the endpoint infrastructure by better use of vars
-[ ] Determine if a Terraform module can replace any of the pile of resources used, for best practice
-[ ] Use tagging more consistenly
-[ ] Verify logging meets requirements
+- [ ] Find ways to simplify the endpoint infrastructure by better use of vars
+- [ ] Determine if a Terraform module can replace any of the pile of resources used, for best practice
+- [ ] Use tagging more consistenly
+- [ ] Verify logging meets requirements
 
 ### User table
 
