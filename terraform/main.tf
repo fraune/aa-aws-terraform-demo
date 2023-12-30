@@ -174,16 +174,8 @@ resource "aws_api_gateway_stage" "stage" {
   }
 }
 
-# Use for create and read
 resource "aws_api_gateway_resource" "user_resource" {
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
   parent_id   = aws_api_gateway_rest_api.api_gateway.root_resource_id
   path_part   = "user"
 }
-
-# Use for update and destroy - TODO: Fix
-# resource "aws_api_gateway_resource" "user_resource_pk_sk" {
-#   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-#   parent_id   = aws_api_gateway_resource.user_resource.id # Parent is the /user resource
-#   path_part   = "{pk}/{sk}"
-# }
