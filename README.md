@@ -20,6 +20,12 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 - Instructions so we can deploy and test the solution.
 - Postman file we can use to exercise the deployed endpoints
 
+## Planning
+
+Potential modules to use
+* [apigateway-v2](https://registry.terraform.io/modules/terraform-aws-modules/apigateway-v2/aws/latest)
+* [dynamodb-table](https://registry.terraform.io/modules/terraform-aws-modules/dynamodb-table/aws/latest)
+
 ## Development
 
 ### Setup
