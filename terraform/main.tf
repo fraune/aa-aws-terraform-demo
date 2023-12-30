@@ -135,7 +135,9 @@ resource "aws_api_gateway_rest_api" "api_gateway" {
 
 resource "aws_api_gateway_deployment" "api_gateway_deployment" {
   depends_on = [
-    aws_api_gateway_integration_response.dynamodb_get_200 # Required, or we'll get a "no APIs" error on first deploy
+    aws_api_gateway_integration_response.dynamodb_get_200, # Required, or we'll get a "no APIs" error on first deploy
+    aws_api_gateway_integration_response.dynamodb_post_200,
+    aws_api_gateway_integration_response.dynamodb_delete_200,
   ]
 
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
@@ -172,20 +174,16 @@ resource "aws_api_gateway_stage" "stage" {
   }
 }
 
-resource "aws_api_gateway_method_settings" "api_gateway_settings" {
-  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-  stage_name  = aws_api_gateway_stage.stage.stage_name
-  method_path = "${aws_api_gateway_resource.user_resource.path_part}/${aws_api_gateway_method.user_get.http_method}"
-
-  settings {
-    metrics_enabled    = true
-    logging_level      = "INFO"
-    data_trace_enabled = true
-  }
-}
-
+# Use for create and read
 resource "aws_api_gateway_resource" "user_resource" {
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
   parent_id   = aws_api_gateway_rest_api.api_gateway.root_resource_id
   path_part   = "user"
 }
+
+# Use for update and destroy - TODO: Fix
+# resource "aws_api_gateway_resource" "user_resource_pk_sk" {
+#   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
+#   parent_id   = aws_api_gateway_resource.user_resource.id # Parent is the /user resource
+#   path_part   = "{pk}/{sk}"
+# }
