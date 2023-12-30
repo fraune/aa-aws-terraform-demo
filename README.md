@@ -60,3 +60,19 @@ Get requests return all the users in the table.
 
 - Request type is `GET`
 - Request body is `none`
+
+### POST (Create)
+
+Post requests create a 
+
+- Request type is `POST`
+- `Content-Type` header is `application/json`
+- Request body
+    ```json
+    {
+        "email": "geordi.laforge@enterprise.org", // required string (_pk0)
+        "name": "geordi",                         // required string (_sk0)
+        "subscribed": true,                       // optional bool
+        "color": "red"                            // optional string
+    }
+    ```
