@@ -28,6 +28,22 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 
 ## Design 🔩
 
+### Project
+
+**Currenlty configurations:**
+
+[x] API Gateway manage all endpoints
+[x] Backend integration via AWS
+[x] Authentication via IAM
+[x] Validation via input mapping types
+
+**Future options:**
+
+[ ] Find ways to simplify the endpoint infrastructure by better use of vars
+[ ] Determine if a Terraform module can replace any of the pile of resources used, for best practice
+[ ] Use tagging more consistenly
+[ ] Verify logging meets requirements
+
 ### User table
 
 Because the design specified storing user data with primary and sort keys, it implies the primary key holds data in a one-to-many relationship, along with the sort key. The data to store was not specified, so I'll make some up.
@@ -53,12 +69,6 @@ Because the design specified storing user data with primary and sort keys, it im
     - Various resources
 
 ## Testing 🧪
-
-### Quick iterations
-CLI for quickly reapplying terraform from scratch
-```
-terraform fmt && terraform init && terraform destroy -auto-approve && terraform apply -auto-approve
-```
 
 ### Setup
 
@@ -93,7 +103,7 @@ Post requests create a new record.
 
 ### GET (Read)
 
-Get requests return all the users in the table.
+Get requests return all the records in the table.
 
 - Request type is `GET`
 - Request body is `none`
