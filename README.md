@@ -20,34 +20,11 @@ Deliver four backend endpoints (no front end, no HTML) that will be the start of
 - Instructions so we can deploy and test the solution.
 - Postman file we can use to exercise the deployed endpoints
 
-## Planning
+## Design
 
-Potential modules to use
-* [apigateway-v2](https://registry.terraform.io/modules/terraform-aws-modules/apigateway-v2/aws/latest)
-* [dynamodb-table](https://registry.terraform.io/modules/terraform-aws-modules/dynamodb-table/aws/latest)
-
-## Development
-
-### Setup
-
-This repo uses Python 3.9 for development of the Fargate code. Assuming you have [Pyenv properly installed](https://github.com/pyenv/pyenv#set-up-your-shell-environment-for-pyenv), run these commands at CLI (I used `zsh 5.9` on MacOS):
-
-1. Ensure Python 3.9 is installed globally
-    ```
-    pyenv install 3.9
-    ```
-1. Ensure Python 3.9 is the global installation
-    ```
-    pyenv global 3.9
-    ```
-1. Verify the correct Python version is configured
-    ```
-    python --version # Should echo `Python 3.9.XX`
-    ```
-1. Create the virtual environment
-    ```
-    cd app
-    python -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    ```
+- DynamoDB module for user storage setup
+    - [terraform-aws-modules/dynamodb-table/aws](https://registry.terraform.io/modules/terraform-aws-modules/dynamodb-table/aws/latest)
+- API Gateway-DynamoDB CRUD integrations, via the "AWS" integration type
+    - [aws_api_gateway_integration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_integration)
+- API Gateway endpoint configurations, authorization via "AWS_IAM" over a Lambda authorizer as per requirements
+    - [aws_api_gateway_method](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method)
