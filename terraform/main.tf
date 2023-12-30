@@ -120,7 +120,7 @@ resource "aws_cloudwatch_log_group" "api_gateway_log_group" {
   name = "/aws/apigateway/AADemo_UserAPI"
 }
 
-resource "aws_api_gateway_account" "example" {
+resource "aws_api_gateway_account" "api_gateway_account" {
   cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch_role.arn
 }
 
@@ -148,7 +148,7 @@ resource "aws_api_gateway_deployment" "api_gateway_deployment" {
   }
 }
 
-resource "aws_api_gateway_stage" "example_stage" {
+resource "aws_api_gateway_stage" "stage" {
   stage_name    = var.stage
   rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
   deployment_id = aws_api_gateway_deployment.api_gateway_deployment.id
@@ -172,9 +172,9 @@ resource "aws_api_gateway_stage" "example_stage" {
   }
 }
 
-resource "aws_api_gateway_method_settings" "example_settings" {
+resource "aws_api_gateway_method_settings" "api_gateway_settings" {
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-  stage_name  = aws_api_gateway_stage.example_stage.stage_name
+  stage_name  = aws_api_gateway_stage.stage.stage_name
   method_path = "${aws_api_gateway_resource.user_resource.path_part}/${aws_api_gateway_method.user_get.http_method}"
 
   settings {
@@ -188,55 +188,4 @@ resource "aws_api_gateway_resource" "user_resource" {
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
   parent_id   = aws_api_gateway_rest_api.api_gateway.root_resource_id
   path_part   = "user"
-}
-
-resource "aws_api_gateway_method" "user_get" {
-  rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
-  resource_id   = aws_api_gateway_resource.user_resource.id
-  http_method   = "GET"
-  authorization = "AWS_IAM"
-}
-
-resource "aws_api_gateway_integration" "dynamodb_get" {
-  rest_api_id             = aws_api_gateway_rest_api.api_gateway.id
-  resource_id             = aws_api_gateway_resource.user_resource.id
-  http_method             = aws_api_gateway_method.user_get.http_method
-  type                    = "AWS"
-  integration_http_method = "POST"
-  uri                     = "arn:aws:apigateway:${var.region}:dynamodb:action/Scan"
-  credentials             = aws_iam_role.api_gateway_dynamodb_role.arn
-
-  request_templates = {
-    "application/json" = jsonencode({
-      "TableName" : "AADemo_UserTable",
-      "version" : "2018-05-29"
-    })
-  }
-}
-
-resource "aws_api_gateway_method_response" "user_get_200" {
-  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-  resource_id = aws_api_gateway_resource.user_resource.id
-  http_method = aws_api_gateway_method.user_get.http_method
-  status_code = "200" # Adjust according to your API's response
-
-  response_models = {
-    "application/json" = "Empty"
-  }
-}
-
-resource "aws_api_gateway_integration_response" "dynamodb_get_200" {
-  rest_api_id = aws_api_gateway_rest_api.api_gateway.id
-  resource_id = aws_api_gateway_resource.user_resource.id
-  http_method = aws_api_gateway_method.user_get.http_method
-  status_code = aws_api_gateway_method_response.user_get_200.status_code
-  depends_on = [
-    aws_api_gateway_integration.dynamodb_get
-  ]
-
-  response_templates = {
-    "application/json" = jsonencode({
-      result = "$input.path('$')"
-    })
-  }
 }
