@@ -9,7 +9,7 @@ resource "aws_api_gateway_method" "user_delete" {
   authorization = "AWS_IAM"
 }
 
-resource "aws_api_gateway_method_settings" "api_gateway_settings_specific" {
+resource "aws_api_gateway_method_settings" "api_gateway_settings_delete" {
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
   stage_name  = aws_api_gateway_stage.stage.stage_name
   method_path = "${aws_api_gateway_resource.user_resource.path_part}/${aws_api_gateway_method.user_delete.http_method}"
@@ -34,8 +34,8 @@ resource "aws_api_gateway_integration" "dynamodb_delete" {
     "application/json" = jsonencode({
       "TableName" : "AADemo_UserTable",
       "Key" : {
-        "_pk0" = { "S" = "$input.path('$.pk')" },
-        "_sk0" = { "S" = "$input.path('$.sk')" }
+        "_pk0" = { "S" = "$input.path('$.starship')" },
+        "_sk0" = { "S" = "$input.path('$.name')" }
       }
     })
   }
