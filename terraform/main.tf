@@ -127,9 +127,6 @@ resource "aws_api_gateway_deployment" "api_gateway_deployment" {
 
   rest_api_id = aws_api_gateway_rest_api.api_gateway.id
 
-  # The stage name is defined here and it should match with the aws_api_gateway_stage resource
-  stage_name = var.stage
-
   # This description encourages a new deployment on configuration changes
   description = "Deployment at ${timestamp()}"
 
@@ -139,7 +136,7 @@ resource "aws_api_gateway_deployment" "api_gateway_deployment" {
 }
 
 resource "aws_api_gateway_stage" "example_stage" {
-  stage_name    = aws_api_gateway_deployment.api_gateway_deployment.stage_name # "dev"
+  stage_name    = var.stage # "dev"
   rest_api_id   = aws_api_gateway_rest_api.api_gateway.id
   deployment_id = aws_api_gateway_deployment.api_gateway_deployment.id
 
