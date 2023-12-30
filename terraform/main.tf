@@ -58,11 +58,10 @@ resource "aws_iam_role_policy" "api_gateway_dynamodb_policy" {
     Statement = [
       {
         Action = [
-          "dynamodb:Scan", # Used for GET
-          # "dynamodb:GetItem",
+          "dynamodb:Scan", # Read requests scan the table
           "dynamodb:PutItem",
-          "dynamodb:UpdateItem",
-          "dynamodb:DeleteItem"
+          "dynamodb:DeleteItem",
+          "dynamodb:UpdateItem"
         ],
         Effect   = "Allow",
         Resource = module.dynamodb_table.dynamodb_table_arn
